@@ -1,4 +1,5 @@
 AI OMICS INTERNSHIP 2025
+
 Research internship conducted by AI and Biotechnology to gain hands-on experience in R programming for biological data science, including scripting, data wrangling, and statistical analysis of high-dimensional omics datasets.
 
 class_Ib.R
