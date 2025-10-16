@@ -1,20 +1,3 @@
-# =====================================================================
-#               AI and Biotechnology / Bioinformatics
-# =====================================================================
-
-# ---------------------------------------------------------------------
-#              AI and Omics Research Internship (2025)
-# ---------------------------------------------------------------------
-#             Module II: Introduction to Genomics Data Analysis
-# ---------------------------------------------------------------------
-#                     Microarray Data Analysis
-# =====================================================================
-
-# Topics covered in this script:
-# 1. Quality Control (QC) 
-# 2. RMA Normalization
-# 3. Pre-processing and Filtering
-
 #######################################################################
 #### 0. Install and Load Required Packages ####
 #######################################################################
@@ -95,38 +78,16 @@ raw_data <- ReadAffy(celfile.path = "Raw_Data/CEL_Files")
 
 raw_data   # Displays basic information about the dataset
 #annotation: hgu133plus2
-# Note down the annotation (e.g annotation= hgu133plus2) from this output.
-# You will need this in the next step to select and install the correct
-# annotation package (e.g., hgu133plus2.db) for mapping probe IDs to genes.
 
 # ---------------------------------------------------
 #### Quality Control (QC) Before Pre-processing ####
 # ---------------------------------------------------
-
-# QC identifies outlier arrays, hybridization problems, or technical biases.
-# arrayQualityMetrics: # This package generates automated QC reports for microarray data.
-# It applies multiple complementary methods to detect technical issues:
-#   - Boxplots and density plots: check distribution of intensities 
-#   - MA-plots: visualize systematic biases between arrays 
-#   - Heatmaps and distance matrices: identify clustering/outliers
-#   - PCA: detect unusual variation/detecting outliers or batch effects
-#
-# The output is an interactive HTML report (index.html file) summarizing QC results.
 
 arrayQualityMetrics(expressionset = raw_data, outdir = "Results/QC_Raw_Data", force = TRUE, do.logtransform = TRUE)
 
 # -------------------------------------------------------
 #### RMA (Robust Multi-array Average) Normalization ####
 # -------------------------------------------------------
-
-# RMA is a popular method for normalizing Affymetrix microarray data by:
-# 1. Background correcting, 
-# 2. normalizing probe intensities using quantile normalization and 
-# 3. summarizing them into gene-level expression values using a robust median polish algorithm.
-
-# This method reduces experimental variation across multiple arrays, 
-# producing more symmetrical and reliable normalized expression data 
-# compared to other approaches
 
 normalized_data <- rma(raw_data)
 
@@ -141,10 +102,6 @@ dim(processed_data)   # Dimensions: number of probes × number of samples
 # ---------------------------------------------------------------------------
 #### Filter Low-Variance Transcripts (“soft” intensity based filtering) ####
 # ---------------------------------------------------------------------------
-
-# Filtering removes probes with low or uninformative expression signals.
-# Reason: Reduces noise and improves statistical power in differential expression & Machine Learning.
-
 
 # Calculate median intensity per probe across samples
 row_median <- rowMedians(as.matrix(processed_data))
@@ -173,10 +130,6 @@ processed_data <- filtered_data
 #### Phenotype Data Preparation ####
 # -----------------------------------
 
-# Phenotype data contains sample-level metadata such as condition, 
-# tissue type, or disease status.
-# Required to define experimental groups for statistical analysis.
-
 class(phenotype_data$source_name_ch1) 
 
 # Define experimental groups (normal vs cancer)
@@ -187,28 +140,5 @@ groups <- factor(phenotype_data$source_name_ch1,
 class(groups)
 levels(groups)
 
-#-------------
-# Assignment 
-#-------------
-
-# Work through the full preprocessing workflow with your own dataset
-
-# 1. Perform quality control before and after normalization and 
-# check whether any arrays are flagged as outliers. 
-# note down how many you found before and after normalization
-
-# 2. Normalize the data and then apply filtering to remove low-intensity probes 
-# and note how many transcripts remain. 
-
-# 3. Use the phenotype information to define your target groups and re-label them (e.g normal vs cancer)
-
-# Submission Instructions:
-
-# Upload your R script implementing the workflow to GitHub and 
-# provide the repository link in the form.
-
-# Google Form: https://forms.gle/1e9tj2Mqf5T9FKEJ7
-
-# Deadline: Sunday 5th October, 2025 (Midnight)
 
 
